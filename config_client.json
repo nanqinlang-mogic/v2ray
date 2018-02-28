@@ -1,0 +1,102 @@
+{
+
+	//"log": {
+	//	"access": "",
+	//	"error": "",
+	//	"loglevel": "info"
+	//},
+
+	"outbound": {
+		"tag": "agentout",
+		"protocol": "vmess",
+		"settings": {
+			"vnext": [{
+				"port": 443,
+				"address": "你的域名",	//你的域名
+				"users": [{
+					"alterId": 5,
+					"security": "aes-128-gcm",
+					"id": "uuid自行写入"	//谷歌 uuid 生成
+				}]
+			}]
+		},
+		"streamSettings": {
+			"network": "ws",
+			"wsSettings": { "path": "/路径/" },	//nginx url 路径
+			"tlsSettings": {},
+			"security": "tls",
+			"tcpSettings": null,
+			"kcpSettings": null
+		},
+		"mux": {
+			"enabled": true,
+			"concurrency": 8
+		}
+	},
+
+	"outboundDetour": [
+		{
+			"tag": "direct",
+			"protocol": "freedom",
+			"settings": { "response": null }
+		},
+		{
+			"tag": "blockout",
+			"protocol": "blackhole",
+			"settings": { "response": { "type": "http" } }
+		}
+	],
+
+	"inbound": {
+		"port": 1080,
+		"listen": "127.0.0.1",
+		"protocol": "socks",
+		"settings": {
+			"ip": "127.0.0.1",
+			"auth": "noauth",
+			"clients": null,
+			"udp": true
+		},
+		"streamSettings": null
+	},
+
+	"inboundDetour": null,
+
+	"routing": {
+		"settings": {
+			"rules": [{
+				"ip": [
+						"0.0.0.0/8",
+						"10.0.0.0/8",
+						"100.64.0.0/10",
+						"127.0.0.0/8",
+						"169.254.0.0/16",
+						"172.16.0.0/12",
+						"192.0.0.0/24",
+						"192.0.2.0/24",
+						"192.168.0.0/16",
+						"198.18.0.0/15",
+						"198.51.100.0/24",
+						"203.0.113.0/24",
+						"::1/128",
+						"fc00::/7",
+						"fe80::/10"
+				],
+				"outboundTag": "direct",
+				"type": "field",
+				"port": null,
+				"domain": null
+			}],
+			"domainStrategy": "IPIfNonMatch"
+		},
+		"strategy": "rules"
+	},
+
+	"dns": {
+		"servers": [
+			"208.67.222.222",
+			"8.8.8.8"
+		]
+	}
+
+}
