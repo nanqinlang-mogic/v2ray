@@ -4,14 +4,19 @@
 [![author](https://github.com/nanqinlang/SVG/blob/master/author-nanqinlang-lightgrey.svg)](https://github.com/nanqinlang/v2ray)
 [![license](https://github.com/nanqinlang/SVG/blob/master/license-GPLv3-orange.svg)](https://github.com/nanqinlang/v2ray)
 
-一个 websocket+tls+nginx 的 v2ray 模板（A template with websocket+tls+nginx of v2ray）
+一个 websocket+tls+nginx+cloudflare 的 v2ray 模板（A template with websocket+tls+nginx+cloudflare of v2ray）
+
+其中：
+- nginx：v1.13.6，编译参数自行查看
+- v2ray：v3.10-linux-64
 
 ## 服务端
 获取文件：
 ```bash
-clone(){
-	apt-get install -y git  &&  cd /home  &&  git clone https://github.com/nanqinlang/v2ray.git v2ray-template
-	mv /home/v2ray-template/nginx /home/nginx  &&  mv /home/v2ray-template/v2ray /home/v2ray  &&  rm -rf /home/v2ray-template
+download(){
+	cd /home
+	wget https://raw.githubusercontent.com/nanqinlang/v2ray/master/nginx.tar.gz && tar -zxf nginx.tar.gz && rm nginx.tar.gz
+	wget https://raw.githubusercontent.com/nanqinlang/v2ray/master/v2ray.tar.gz && tar -zxf v2ray.tar.gz && rm v2ray.tar.gz
 	chmod -R +x /home/nginx  &&  chmod -R +x /home/v2ray
 }
 ```
@@ -30,6 +35,8 @@ start(){
 ```
 
 运行 `ps -A`，看到进程里有 nginx 和 v2ray 就对了。
+
+然后 `cloudflare cdn websocket` 你自己去加。
 
 
 ## 客户端
